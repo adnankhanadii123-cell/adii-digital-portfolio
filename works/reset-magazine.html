@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS Resume Overhaul — Magazine | adii digital</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2040%2040%27%20fill%3D%27none%27%3E%3Crect%20x%3D%271.5%27%20y%3D%271.5%27%20width%3D%2737%27%20height%3D%2737%27%20rx%3D%278%27%20stroke%3D%27%23D44000%27%20stroke-width%3D%273%27/%3E%3Ccircle%20cx%3D%2720%27%20cy%3D%2720%27%20r%3D%2711.5%27%20stroke%3D%27%23D44000%27%20stroke-width%3D%271.2%27%20fill%3D%27none%27%20opacity%3D%270.7%27/%3E%3Ctext%20x%3D%2720%27%20y%3D%2726%27%20text-anchor%3D%27middle%27%20fill%3D%27%23D44000%27%20font-family%3D%27Space%20Grotesk%2CInter%2Csans-serif%27%20font-size%3D%2714%27%20font-weight%3D%27700%27%3EAD%3C/text%3E%3C/svg%3E">
+
+    <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.43/dist/lenis.min.js"></script>
+    <style>
+        :root {
+            --bg: #F7F5F2; --surface: #FFFFFF; --elevated: #F3F0EC;
+            --text: #1A1A1A; --muted: #6B6B6B; --line: #E0DED9;
+            --accent: #D44000; --gold: #B8956A;
+            --glass-bg: rgba(255,255,255,0.8); --glass-border: rgba(0,0,0,0.06);
+        }
+        body.dark {
+            --bg: #0D0D0D; --surface: #141414; --elevated: #1C1C1C;
+            --text: #F2EFEC; --muted: #A8A29E; --line: #2A2A2A;
+            --accent: #FF5E2E; --gold: #D4A574;
+            --glass-bg: rgba(20,20,20,0.85); --glass-border: rgba(255,255,255,0.08);
+        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{
+            font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+            background:var(--bg); color:var(--text);
+            -webkit-font-smoothing:antialiased; overflow-x:hidden; line-height:1.6;
+            padding-top:100px; transition:background 0.4s,color 0.4s;
+        }
+        ::selection{background:var(--accent);color:#fff}
+
+        .navbar{position:fixed;top:1.5rem;left:50%;transform:translateX(-50%);z-index:1200;
+            padding:0.8rem 2rem;background:var(--glass-bg);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+            border:1px solid var(--glass-border);border-radius:60px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.08);display:flex;align-items:center;gap:1rem;
+            width:fit-content;max-width:95vw;transition:transform 0.4s, opacity 0.3s}
+        .text-logo{text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:900;
+            letter-spacing:-0.03em;color:var(--text);white-space:nowrap;margin-right:0.5rem}
+            .logo{display:flex;align-items:center;gap:0.6rem;text-decoration:none;color:var(--text);white-space:nowrap;margin-right:0.5rem}
+.logo svg{width:32px;height:32px;flex-shrink:0}
+        .nav-links{display:flex;gap:0.6rem;list-style:none;align-items:center}
+        .nav-links a{text-decoration:none;color:var(--muted);font-weight:500;font-size:0.9rem;
+            padding:0.45rem 1rem;border-radius:20px;transition:all 0.3s;white-space:nowrap;border:1px solid transparent}
+        .nav-links a:hover{color:var(--text);background:var(--elevated);border-color:var(--line)}
+        .nav-cta{background:var(--text);color:var(--bg)!important;padding:0.5rem 1.4rem;border-radius:60px;
+            font-weight:600!important}
+        .nav-cta:hover{background:var(--accent)!important;color:#fff!important}
+        .theme-toggle-wrap{display:flex;align-items:center;margin-left:0.3rem}
+        .theme-toggle-checkbox{display:none}
+        .theme-toggle-label{display:block;width:52px;height:28px;background:#D1CCC4;border-radius:28px;cursor:pointer;
+            position:relative;transition:all 0.4s;border:1px solid var(--line)}
+        body.dark .theme-toggle-label{background:#3A3A3A}
+        .toggle-knob{position:absolute;top:2px;left:2px;width:24px;height:24px;background:#FFFFFF;border-radius:50%;
+            transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);display:flex;align-items:center;justify-content:center;
+            box-shadow:0 2px 8px rgba(0,0,0,0.12)}
+        body.dark .toggle-knob{background:#1C1C1C;transform:translateX(24px)}
+        .toggle-icon{width:16px;height:16px;stroke:#1A1A1A;fill:none;stroke-width:2;position:absolute;transition:opacity 0.25s}
+        body.dark .toggle-icon{stroke:#FFFFFF}
+        .sun-icon{opacity:1}.moon-icon{opacity:0}
+        body.dark .sun-icon{opacity:0}body.dark .moon-icon{opacity:1}
+        
+        .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:0.5rem;z-index:1210}
+        .hamburger span{width:26px;height:3px;background:var(--text);border-radius:2px;transition:0.3s;transform-origin:center}
+        .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+        .hamburger.active span:nth-child(2){opacity:0;transform:scaleX(0)}
+        .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+        
+        .mobile-menu{position:fixed;inset:0;background:var(--bg);z-index:998;display:flex;flex-direction:column;
+            align-items:center;justify-content:center;gap:1rem;opacity:0;visibility:hidden;transition:all 0.4s;padding:2rem}
+        .mobile-menu.active{opacity:1;visibility:visible}
+        .mobile-menu a{
+            color:var(--text);font-size:1.25rem;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;
+            text-decoration:none;padding:16px 32px;background:var(--surface);border:1.5px solid var(--line);
+            border-radius:16px;width:100%;max-width:320px;text-align:center;transition:all 0.3s;
+            box-shadow:0 2px 8px rgba(0,0,0,0.04);opacity:0;transform:translateY(20px);
+        }
+        .mobile-menu.active a{opacity:1;transform:translateY(0)}
+        .mobile-menu a:hover{background:var(--elevated);border-color:var(--line);transform:translateY(-2px)}
+
+        .back-float{position:relative;z-index:10;background:var(--surface);color:var(--muted);
+            border:1px solid var(--line);border-radius:100px;padding:8px 14px;display:inline-flex;align-items:center;gap:6px;
+            text-decoration:none;font-size:13px;font-weight:500;box-shadow:0 2px 8px rgba(0,0,0,0.04);
+            transition:all 0.25s;margin:0 0 0 28px;width:fit-content}
+        .back-float:hover{transform:translateX(-2px);background:var(--elevated);color:var(--text);gap:8px}
+
+        .hero{position:relative;min-height:88vh;display:flex;align-items:center;margin-top:-100px;padding-top:100px;overflow:hidden}
+        .hero-bg{position:absolute;inset:0;z-index:0}
+        .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center}
+        .hero-bg::after{content:'';position:absolute;inset:0;background:
+            linear-gradient(105deg,var(--bg) 0%,rgba(247,245,242,0.96) 35%,rgba(247,245,242,0.75) 58%,transparent 75%)}
+        body.dark .hero-bg::after{background:
+            linear-gradient(105deg,var(--bg) 0%,rgba(13,13,13,0.96) 35%,rgba(13,13,13,0.75) 58%,transparent 75%)}
+        .hero-container{position:relative;z-index:2;width:100%;max-width:1400px;margin:0 auto;padding:0 48px}
+        .hero-top{display:flex;justify-content:space-between;align-items:center;padding:36px 0 24px;
+            margin-bottom:clamp(40px,6vh,60px)}
+        .issue-tag{font-family:'Fragment Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+            color:var(--muted);display:flex;align-items:center;gap:10px}
+        .issue-tag::before{content:'';width:24px;height:1px;background:var(--accent)}
+        .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:80px;align-items:center;padding-bottom:80px}
+        .hero-left{max-width:600px}
+        .eyebrow{font-family:'Fragment Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;
+            color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:12px;font-weight:500}
+        .eyebrow::before{content:'';width:28px;height:2px;background:var(--accent);border-radius:2px}
+        .hero-title{font-family:'Instrument Serif',serif;font-size:clamp(52px,7vw,88px);font-weight:400;
+            line-height:0.85;letter-spacing:-0.02em;color:var(--text);margin-bottom:16px;text-transform:uppercase}
+        .hero-sub{font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(24px,3vw,36px);
+            color:var(--muted);margin-bottom:28px;line-height:1.1}
+        .hero-desc{font-size:17px;line-height:1.65;color:var(--muted);max-width:480px;margin-bottom:36px}
+        .hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
+        .btn-primary{background:var(--text);color:var(--bg);padding:15px 30px;border-radius:100px;
+            font-weight:600;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;gap:10px;
+            transition:all 0.4s;box-shadow:0 6px 20px rgba(0,0,0,0.12)}
+        .btn-primary:hover{background:var(--accent);color:#fff;transform:translateY(-2px)}
+        .hero-right{display:flex;justify-content:flex-end}
+        .magazine-card{background:var(--surface);border:1px solid var(--line);border-radius:32px;padding:0;
+            max-width:440px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,0.12);overflow:hidden;transition:all 0.5s}
+        .magazine-card:hover{transform:translateY(-8px) rotateX(2deg);box-shadow:0 40px 120px rgba(0,0,0,0.2)}
+        .magazine-card-link{text-decoration:none;color:inherit;display:block}
+        .magazine-card{position:relative;cursor:pointer}
+        .magazine-card::before{content:'';position:absolute;inset:0;border-radius:32px;padding:1px;
+            background:linear-gradient(135deg,transparent,var(--accent),transparent);-webkit-mask:
+            linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:
+            linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;
+            mask-composite:exclude;opacity:0;transition:opacity 0.4s;pointer-events:none;z-index:3}
+        .magazine-card:hover::before{opacity:1}
+        .card-hover-icon{position:absolute;top:16px;right:16px;width:40px;height:40px;background:rgba(0,0,0,0.7);
+            backdrop-filter:blur(10px);border-radius:50%;display:flex;align-items:center;justify-content:center;
+            color:#fff;opacity:0;transform:translate(10px,-10px) scale(0.8);transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);z-index:2}
+        .magazine-card:hover .card-hover-icon{opacity:1;transform:translate(0,0) scale(1)}
+        .magazine-card .card-visual img{transition:transform 0.7s cubic-bezier(0.2,0.8,0.2,1)}
+        .magazine-card:hover .card-visual img{transform:scale(1.05)}
+        .magazine-card .card-content h3{transition:color 0.3s}
+        .magazine-card:hover .card-content h3{color:var(--accent)}
+        .mini-stats strong{transition:all 0.3s}
+        .magazine-card:hover .mini-stats strong{color:var(--accent);transform:scale(1.1)}
+
+        .card-visual{position:relative;height:220px;background:#1F1B18;overflow:hidden}
+        .card-visual img{width:100%;height:100%;object-fit:cover;opacity:0.9}
+        .card-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,0.7))}
+        .visual-badge{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);
+            padding:6px 12px;border-radius:100px;font-family:'Fragment Mono',monospace;font-size:10px;letter-spacing:0.08em;
+            text-transform:uppercase;font-weight:600;color:#1a1a1a}
+        .card-content{padding:32px}
+        .card-meta{font-family:'Fragment Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+            color:var(--accent);margin-bottom:10px;font-weight:500}
+        .card-content h3{font-family:'Instrument Serif',serif;font-size:26px;line-height:1.2;margin-bottom:12px}
+        .card-content p{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+        .mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 0;border-top:1px solid var(--line)}
+        .mini-stats div{text-align:center}
+        .mini-stats strong{display:block;font-family:'Space Grotesk',sans-serif;font-size:20px;color:var(--text)}
+        .mini-stats span{font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted)}
+
+        .showcase{padding:120px 48px;background:var(--elevated);border-top:1px solid var(--line)}
+        .showcase-inner{max-width:1200px;margin:0 auto}
+        .section-head{text-align:center;margin-bottom:70px}
+        .section-kicker{font-family:'Fragment Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+            color:var(--accent);margin-bottom:12px}
+        .section-title{font-family:'Instrument Serif',serif;font-size:clamp(40px,5vw,60px);line-height:1;margin-bottom:16px}
+        .section-desc{font-size:16px;color:var(--muted);max-width:540px;margin:0 auto}
+
+        .resume-magazine{display:grid;grid-template-columns:1.1fr 0.9fr;gap:60px;align-items:start}
+        .preview-frame{background:var(--surface);border:1px solid var(--line);border-radius:28px;overflow:hidden;
+            box-shadow:0 20px 60px rgba(0,0,0,0.08);position:sticky;top:120px}
+        .preview-header{background:linear-gradient(135deg,#1F1B18 0%,#2C2622 100%);padding:28px 32px;color:#fff;position:relative;overflow:hidden}
+        .preview-header::before{content:'';position:absolute;top:-50px;right:-50px;width:150px;height:150px;
+            border-radius:50%;background:rgba(255,255,255,0.04)}
+        .header-top{display:flex;gap:20px;align-items:center;position:relative;z-index:1}
+        .avatar-lg{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,0.2)}
+        .header-info h4{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:4px}
+        .header-info .role{color:var(--accent);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em}
+        .header-meta{display:flex;gap:20px;margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.1);
+            font-size:12px;color:rgba(255,255,255,0.7)}
+        .preview-body{padding:32px;background:var(--surface)}
+        .cv-block{margin-bottom:28px}
+        .cv-label{font-family:'Fragment Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;
+            color:var(--accent);margin-bottom:8px;font-weight:600;display:flex;align-items:center;gap:8px}
+        .cv-label::after{content:'';flex:1;height:1px;background:var(--line)}
+        .cv-text{font-size:14px;line-height:1.6;color:var(--text)}
+        .timeline-modern{display:flex;flex-direction:column;gap:18px}
+        .tm-item{display:flex;gap:14px}
+        .tm-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);margin-top:5px;flex-shrink:0;box-shadow:0 0 0 3px rgba(212,64,0,0.15)}
+        .tm-content strong{display:block;font-size:15px;margin-bottom:2px}
+        .tm-content .meta{font-size:12px;color:var(--muted)}
+        .skills-grid{display:flex;flex-wrap:wrap;gap:8px}
+        .skill-chip{background:var(--elevated);border:1px solid var(--line);padding:6px 14px;border-radius:100px;
+            font-size:12px;font-weight:500;color:var(--text);transition:all 0.2s}
+        .skill-chip:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-1px)}
+
+        .content-side{padding-top:20px}
+        .content-side h2{font-family:'Instrument Serif',serif;font-size:clamp(36px,4vw,48px);line-height:1.1;
+            letter-spacing:-0.01em;margin-bottom:20px}
+        .content-side h2 i{font-style:italic;color:var(--muted)}
+        .content-side .lead{font-size:17px;line-height:1.7;color:var(--muted);margin-bottom:32px}
+        .feature-list{display:flex;flex-direction:column;gap:16px;margin-bottom:36px}
+        .feature-item{display:flex;gap:14px;align-items:flex-start;padding:16px;background:var(--surface);
+            border:1px solid var(--line);border-radius:16px;transition:all 0.3s}
+        .feature-item:hover{border-color:var(--accent);transform:translateX(4px);box-shadow:0 4px 20px rgba(0,0,0,0.06)}
+        .feature-icon{width:36px;height:36px;border-radius:10px;background:rgba(212,64,0,0.1);display:flex;
+            align-items:center;justify-content:center;flex-shrink:0;color:var(--accent);font-weight:700}
+        .feature-text strong{display:block;font-size:15px;margin-bottom:3px}
+        .feature-text span{font-size:13px;color:var(--muted);line-height:1.4}
+        .cta-box{background:var(--surface);border:2px solid var(--text);border-radius:24px;padding:28px;text-align:center}
+        .cta-box h4{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:8px}
+        .cta-box p{font-size:14px;color:var(--muted);margin-bottom:18px}
+
+        @media(max-width:1024px){
+            .hero-grid,.resume-magazine{grid-template-columns:1fr;gap:50px}
+            .hero-right{justify-content:flex-start}
+            .magazine-card{max-width:none}
+            .preview-frame{position:relative;top:0}
+        }
+        @media(max-width:768px){
+            body{padding-top:85px}
+            .navbar{top:0.8rem;padding:0.7rem 1.1rem}
+            .nav-links{display:none}
+            .hamburger{display:flex}
+            .back-float{margin-left:20px}
+            .hero{margin-top:-85px;padding-top:85px}
+            .hero-container{padding:0 24px}
+            .hero-top{padding:24px 0 16px;margin-bottom:40px}
+            .hero-title{font-size:clamp(48px,12vw,72px)}
+            .showcase{padding:80px 24px}
+            .preview-header,.preview-body{padding:24px}
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+       <a href="../index.html" class="logo" aria-label="adii digital">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+    <rect x="1.5" y="1.5" width="37" height="37" rx="8" stroke="currentColor" stroke-width="3"/>
+    <circle cx="20" cy="20" r="11.5" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.7"/>
+    <text x="20" y="25.5" text-anchor="middle" fill="currentColor" font-family="'Space Grotesk','Inter',sans-serif" font-size="14" font-weight="700" letter-spacing="-0.5">AD</text>
+  </svg>
+</a>
+        <ul class="nav-links">
+            <li><a href="../index.html#works">Works</a></li>
+            <li><a href="../index.html#about">About</a></li>
+            <li><a href="../index.html#pricing">Pricing</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+            <li><a href="https://www.fiverr.com/malikadnan20" target="_blank" class="nav-cta">Hire on Fiverr</a></li>
+        </ul>
+        <div class="theme-toggle-wrap">
+            <input type="checkbox" id="themeCheckbox" class="theme-toggle-checkbox">
+            <label class="theme-toggle-label" for="themeCheckbox">
+                <span class="toggle-knob">
+                    <svg class="toggle-icon sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    <svg class="toggle-icon moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+                </span>
+            </label>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </nav>
+    
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="../index.html#works">Works</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#pricing">Pricing</a>
+        <a href="../index.html#contact">Contact</a>
+        <a href="https://www.fiverr.com/malikadnan20" target="_blank">Hire on Fiverr</a>
+    </div>
+
+    <a href="../index.html#works" class="back-float">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M10 13L5 8l5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back to works
+    </a>
+
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=2000&h=1400&fit=crop&crop=center&q=90" alt="Magazine">
+        </div>
+        <div class="hero-container">
+            <div class="hero-top">
+                <div class="issue-tag">Issue 02 — Career Transformation</div>
+            </div>
+            
+            <div class="hero-grid">
+                <div class="hero-left">
+                    <div class="eyebrow">MAGAZINE EDITORIAL — 2025</div>
+                    <h1 class="hero-title">RESUME</h1>
+                    <div class="hero-sub">Your experience, restructured for ATS.</div>
+                    <p class="hero-desc">A modern editorial approach to resume design. Clean layouts, strategic hierarchy, and content that passes both bots and human recruiters.</p>
+                    <div class="hero-ctas">
+                        <a href="../index.html#contact" class="btn-primary">
+                            <span>Start Your Resume</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="hero-right">
+                    <a href="#showcase" class="magazine-card-link">
+                        <div class="magazine-card">
+                            <div class="card-visual">
+                                <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=400&fit=crop" alt="">
+                                <div class="visual-badge">Featured Work</div>
+                                <div class="card-hover-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H7m10 0v10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-meta">ATS OVERHAUL — 2025</div>
+                                <h3>Editorial resumes that get read.</h3>
+                                <p>Magazine-inspired layout meets ATS compliance. Every section designed for scannability and impact.</p>
+                                <div class="mini-stats">
+                                    <div><strong>98%</strong><span>Pass Rate</span></div>
+                                    <div><strong>48h</strong><span>Delivery</span></div>
+                                    <div><strong>200+</strong><span>Clients</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="showcase" id="showcase">
+        <div class="showcase-inner">
+            <div class="section-head">
+                <div class="section-kicker">CASE STUDY</div>
+                <h2 class="section-title">From ignored to interviewed</h2>
+                <p class="section-desc">I take raw experience and reshape it into a resume that passes ATS filters, while keeping it visually clean and human-centric.</p>
+            </div>
+
+            <div class="resume-magazine">
+                <div class="preview-frame">
+                    <div class="preview-header">
+                        <div class="header-top">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" class="avatar-lg" alt="Adnan">
+                            <div class="header-info">
+                                <h4>Muhammad Adnan</h4>
+                                <div class="role">WordPress Developer & ATS Resume Expert</div>
+                            </div>
+                        </div>
+                        <div class="header-meta">
+                            <span>Pakistan</span>
+                            <span>•</span>
+                            <span>adnankhanadii123@gmail.com</span>
+                            <span>•</span>
+                            <span>+92 314 2267888</span>
+                        </div>
+                    </div>
+                    <div class="preview-body">
+                        <div class="cv-block">
+                            <div class="cv-label">Professional Summary</div>
+                            <div class="cv-text">Results-driven developer with 3+ years crafting high-converting WordPress sites and ATS-optimized resumes for IT professionals. Passionate about clean design and measurable outcomes.</div>
+                        </div>
+                        <div class="cv-block">
+                            <div class="cv-label">Experience</div>
+                            <div class="timeline-modern">
+                                <div class="tm-item">
+                                    <div class="tm-dot"></div>
+                                    <div class="tm-content">
+                                        <strong>Freelance Developer</strong>
+                                        <div class="meta">Fiverr · 2023 – Present · 200+ projects, 5-star rating</div>
+                                    </div>
+                                </div>
+                                <div class="tm-item">
+                                    <div class="tm-dot"></div>
+                                    <div class="tm-content">
+                                        <strong>Resume Strategist</strong>
+                                        <div class="meta">Career Leap · 2024 – Present · 98% ATS pass rate</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cv-block">
+                            <div class="cv-label">Core Skills</div>
+                            <div class="skills-grid">
+                                <span class="skill-chip">WordPress</span>
+                                <span class="skill-chip">Elementor</span>
+                                <span class="skill-chip">HTML/CSS</span>
+                                <span class="skill-chip">ATS Optimization</span>
+                                <span class="skill-chip">SEO</span>
+                                <span class="skill-chip">Resume Writing</span>
+                            </div>
+                        </div>
+                        <div class="cv-block">
+                            <div class="cv-label">Education & Certifications</div>
+                            <div class="cv-text" style="font-size:13px;color:var(--muted)">
+                                Computer Science, Aptech Learning (2025)<br>
+                                Google Digital Marketing • Semrush SEO Fundamentals
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-side">
+                    <h2>Magazine layout,<br><i>engineered for ATS.</i></h2>
+                    <p class="lead">This isn't a template. It's an editorial system built from studying 200+ successful resumes. Every margin, every weight, every keyword placement is intentional.</p>
+                    
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <div class="feature-text">
+                                <strong>ATS-friendly formatting</strong>
+                                <span>Clean hierarchy that parsers love, with zero tables or graphics that break.</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <div class="feature-text">
+                                <strong>Keyword optimization for IT roles</strong>
+                                <span>Strategic placement of industry terms without keyword stuffing.</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <div class="feature-text">
+                                <strong>Editable Word + PDF delivery</strong>
+                                <span>Both formats, fully editable, with font files included.</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <div class="feature-text">
+                                <strong>48-hour turnaround</strong>
+                                <span>Fast delivery without sacrificing quality or attention to detail.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cta-box">
+                        <h4>Ready for your transformation?</h4>
+                        <p>Let's build a resume that gets you interviews, not rejections.</p>
+                        <a href="../index.html#contact" class="btn-primary" style="width:100%;justify-content:center">Start Your Resume →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const themeCheckbox = document.getElementById('themeCheckbox');
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') { document.body.classList.add('dark'); themeCheckbox.checked = true; }
+        themeCheckbox.addEventListener('change', () => {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        let lenis;
+        try {
+            if (typeof Lenis !== 'undefined') {
+                lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
+                function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+                requestAnimationFrame(raf);
+            }
+        } catch(e) {}
+
+        // 3D tilt effect for magazine card
+        const card = document.querySelector('.magazine-card');
+        if (card && window.innerWidth > 1024) {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 15;
+                const rotateY = (centerX - x) / 15;
+                card.style.transform = `translateY(-8px) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) perspective(1000px) rotateX(0) rotateY(0)';
+            });
+        }
+
+    </script>
+</body>
+</html>
