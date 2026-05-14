@@ -204,7 +204,9 @@
         .cta-box{background:var(--surface);border:2px solid var(--text);border-radius:24px;padding:28px;text-align:center}
         .cta-box h4{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:8px}
         .cta-box p{font-size:14px;color:var(--muted);margin-bottom:18px}
-
+        footer{text-align:center;padding:2rem;color:var(--light);font-size:.85rem;border-top:1px solid var(--border);margin-top:0;position:relative;z-index:1}
+        footer a{color:var(--muted);text-decoration:none;transition:color .3s}
+        footer a:hover{color:var(--accent)}
         @media(max-width:1024px){
             .hero-grid,.resume-magazine{grid-template-columns:1fr;gap:50px}
             .hero-right{justify-content:flex-start}
@@ -432,7 +434,13 @@
             </div>
         </div>
     </section>
-
+    <footer>
+    © 2026 adii digital. All rights reserved.<br>
+    Unauthorized reproduction, copying, or redistribution of any content, design, branding, or assets from this website is prohibited.
+    <br><br>
+    <a href="https://www.fiverr.com/malikadnan20" target="_blank">Fiverr</a> |
+    <a href="https://wa.me/923142267888">WhatsApp</a>
+    </footer>
     <script>
         const themeCheckbox = document.getElementById('themeCheckbox');
         const savedTheme = localStorage.getItem('theme');
